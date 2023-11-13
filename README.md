@@ -22,7 +22,8 @@ Criei 3 VM’s ( 1ª Ubuntu com o Ansible, 2ª Ubuntu e 3ª CentOS)
 	ansible-galaxy init roleName	
 	- role serverTools: seta o nome do host definido no inventory, instala alguns pacotes, abre o protocolo http (apenas para laboratório), desabilita o SELinux mas no ambiente de dev o certo é configurá-lo
 	- role mysql: instalei o banco de dados MariaDB nas 2 VM’s, configurei pra que fique startado não só no momento da instalação, via socket do módulo do mysql (mariadb é um fork do mysql) é criado um banco de dados utilizando variáveis (diretório vars, mas no ambiente de dev é mais seguro imputar no servidor variáveis de ambiente) em seguida criação de usuário e seus privilégios, e por ultima a task que remove usuários anônimos por uma boa prática
-- role apache: instalação do servidor web Apache nos dois SO’s: ubuntu e redhat cada qual com um arquivo, referenciando-os no main, handlers para habilitar módulos do apache, habilitar o site pro Apache, arquivo de config que o site utiliza, virtual host com as configs do site...
+	- role apache: instalação do servidor web Apache nos dois SO’s: ubuntu e redhat cada qual com um arquivo, referenciando-os no main, handlers para habilitar módulos do apache, habilitar o site pro Apache, arquivo de config que o site utiliza, virtual host com as configs do site...
+ 	- role php: criando repo e instalando o PHP para rodar WordPress	
 
 *adicionei o virtual host (jacque.local) no arquivo de host local ao acessar o site pelo navegador
 
