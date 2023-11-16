@@ -1,0 +1,70 @@
+---
+#tasks file for mysql
+
+- name: Instalando MariaDB Server - Debian
+  apt:
+    update_cache: yes
+    name:
+      - mariadb-server
+      - python3-pymysql
+    state: present
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: Instalando MariaDB Server - RedHat
+  yum:
+    name:
+      - mariadb-server
+      - MySQL-python
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: Startando MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Criando um banco de dados para ser utilizado pelo WordPress - Debian
+  mysql_db:
+    login_unix_socket: "/var/run/mysqld/mysqld.sock"
+    name: "{{ db_wp_name }}"
+    state: present
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: Criando um banco de dados para ser utilizado pelo WordPress - RedHat
+  mysql_db:
+    name: "{{ db_wp_name }}"
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: Criando usuário com senha, configurando privilégio total - Debian
+  mysql_user:
+    login_unix_socket: "/var/run/mysqld/mysqld.sock"
+    name: "{{ db_wp_username }}"
+    password: "{{ db_wp_password }}"
+    priv: "{{ db_wp_name }}.*:ALL,GRANT"
+    state: present
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: Criando usuário com senha, configurando privilégio total - RedHat
+  mysql_user:
+    name: "{{ db_wp_username }}"
+    password: "{{ db_wp_password }}"
+    priv: "{{ db_wp_name }}.*:ALL,GRANT"
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: Removendo contas de usuários anônimos - Debian
+  mysql_user:
+    login_unix_socket: "/var/run/mysqld/mysqld.sock"
+    name: ''
+    host_all: yes 
+    state: absent
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: Removendo contas de usuários anônimos - RedHat
+  mysql_user:
+    name: ''
+    host_all: yes 
+    state: absent
+  when: (ansible_facts['os_family'] == "RedHat")

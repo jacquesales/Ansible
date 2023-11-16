@@ -1,0 +1,7 @@
+---
+# handlers file for php
+
+- name: 'RestartAgainHttpd'
+  service: 
+    name: httpd
+    state: restarted

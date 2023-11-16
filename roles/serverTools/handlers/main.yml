@@ -1,0 +1,17 @@
+---
+# handlers file for serverTools
+- name: 'addInHostsFile'
+  lineinfile: #módulo que add linha no arquivo hosts
+    path: /etc/hosts
+    line: "{{ item }}" 
+  with_items: #loop para atribuir localhost e ip fixo a cada host
+    - "127.0.0.1 {{ hostname }}" #hostname = variável do inventory.yaml
+    - "{{inventory_hostname}} {{ hostname }}" #inventory_hostname = ip
+
+- name: 'Restart Server'
+  reboot:
+
+- name: enable-yum-utils
+  shell: #rodando diretamente no terminal pois não foi possível rodar via módulo
+    cmd: 'yum-config-manager --enable remi-php74' #pacote php74
+  when: ansible_facts['os_family'] == "RedHat") and ansible_facts['distribution_major_version'] == '7'

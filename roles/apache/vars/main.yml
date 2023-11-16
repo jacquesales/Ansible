@@ -1,0 +1,8 @@
+---
+# vars file for apache
+
+log_prefix: "jacque-local"
+site_folder: "/var/www/jacque_local"
+site_url: "www.jacque.local"
+site_domain: "jacque.local"
+php_version: "7.3"
