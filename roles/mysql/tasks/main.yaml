@@ -18,13 +18,11 @@
     state: present
   when: (ansible_facts['os_family'] == "RedHat")
 
-
 - name: Startando MariaDB
   service:
     name: mariadb
     state: started
     enabled: yes
-
 
 - name: Criando um banco de dados para ser utilizado pelo WordPress - Debian
   mysql_db:
@@ -38,7 +36,6 @@
     name: "{{ db_wp_name }}"
     state: present
   when: (ansible_facts['os_family'] == "RedHat")
-
 
 - name: Criando usuário com senha, configurando privilégio total - Debian
   mysql_user:
@@ -56,7 +53,6 @@
     priv: "{{ db_wp_name }}.*:ALL,GRANT"
     state: present
   when: (ansible_facts['os_family'] == "RedHat")
-
 
 - name: Removendo contas de usuários anônimos - Debian
   mysql_user:
